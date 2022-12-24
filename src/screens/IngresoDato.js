@@ -52,7 +52,7 @@ export const IngresoDato = () => {
   };
   return (
     <div>
-      <form class="row g-3 needs-validation" novalidate>
+      <form class="row g-3 needs-validation">
         <div class="col-md-4">
           <div class="form-outline">
             <input
@@ -102,12 +102,12 @@ export const IngresoDato = () => {
           </div>
         </div>
         <div class="col-12">
-          
+        <button class="btn btn-primary" onClick={IngresarDato}>
+            Enviar
+          </button>
         </div>
       </form>
-      <button class="btn btn-primary" onClick={IngresarDato}>
-            Submit form
-          </button>
+      
     </div>
   );
 };
