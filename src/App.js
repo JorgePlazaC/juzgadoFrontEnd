@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //Propio del proyecto
 import NavBar from "./components/NavBar";
 import { IngresoDato } from "./screens/IngresoDato";
+import { Home } from "./screens/Home";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Router>
         <NavBar />
         <Routes>
-          <Route path="/" element={<div>Hola</div>} />
+          <Route path="/" element={<Home/>} />
           <Route path="/ingreso" element={<IngresoDato />} />
         </Routes>
       </Router>

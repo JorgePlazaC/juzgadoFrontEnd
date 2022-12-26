@@ -25,10 +25,9 @@ export const IngresoDato = () => {
 
   //Actualizar tiempo
   const IngresarDato = () => {
-    
     const db = getDatabase();
     const reference = ref(db, "datos/");
-    
+
     push(reference, {
       nombre: nombre,
       apellido: apellido,
@@ -101,13 +100,11 @@ export const IngresoDato = () => {
             <div class="invalid-feedback">Please provide a valid city.</div>
           </div>
         </div>
-        <div class="col-12">
-        <button class="btn btn-primary" onClick={IngresarDato}>
-            Enviar
-          </button>
-        </div>
+        <div class="col-12"></div>
       </form>
-      
+      <button class="btn btn-primary" onClick={IngresarDato}>
+        Enviar
+      </button>
     </div>
   );
 };

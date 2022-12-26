@@ -1,10 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { getDatabase, onValue, push, ref, set } from "firebase/database";
 
-export const home = () => {
+import { DespliegueDatos } from "../components/DespliegueDatos";
+
+export const Home = () => {
   const [array, setArray] = useState([]);
+  const [cargando, setCargando] = useState(true)
 
   //UseEfect
   useEffect(() => {
@@ -27,15 +30,40 @@ export const home = () => {
 
   const app = initializeApp(firebaseConfig);
 
-  //Obtener tiempo
+  //Obtener datos
   const fetchFirebase = () => {
     const db = getDatabase();
     const reference = ref(db, "datos/");
     onValue(reference, async (snapshot) => {
       const data = await snapshot.val();
-      setArray(data);
+      setArray(await data);
+      setCargando(false)
     });
-    console.log("asdasdasdasd");
+    //console.log(array);
   };
-  return <div>home</div>;
+
+  //Listar datos
+  const DesplegarDatos = () => {
+    
+    //-------------------------------------------------------------------------- ARREGLAR ARRAY ---------------------------------------------------------------------
+    if(cargando){
+      
+      return <h2>Cargando</h2>
+    } else{
+      console.log(cargando)
+      console.log(array)
+      return array.map((dato,i) => {
+        <DespliegueDatos key={i} item={dato} />;
+      });
+    }
+  };
+  
+  return(
+  <div>
+    Home
+    
+    
+      {DesplegarDatos()}
+    
+  </div>)
 };
