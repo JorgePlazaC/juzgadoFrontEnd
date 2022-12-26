@@ -23,16 +23,27 @@ export const IngresoDato = () => {
 
   const app = initializeApp(firebaseConfig);
 
+  
+
   //Actualizar tiempo
   const IngresarDato = () => {
     const db = getDatabase();
-    const reference = ref(db, "datos/");
+    let reference = ref(db, "datos/");
 
-    push(reference, {
+    let dato = {
       nombre: nombre,
       apellido: apellido,
       ciudad: ciudad,
-    });
+      key: "",
+    };
+
+    const response = push(reference, dato);
+    
+    dato.key = response.key
+    reference = ref(db, "datos/"+dato.key);
+    set(reference,dato)
+    
+    console.log("ID obtenida: "+response.key)
   };
 
   const editarNombre = (event) => {
@@ -50,7 +61,7 @@ export const IngresoDato = () => {
     console.log(ciudad);
   };
   return (
-    <div>
+    <div className="container">
       <form class="row g-3 needs-validation">
         <div class="col-md-4">
           <div class="form-outline">

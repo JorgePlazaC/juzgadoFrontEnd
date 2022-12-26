@@ -7,7 +7,9 @@ import { DespliegueDatos } from "../components/DespliegueDatos";
 
 export const Home = () => {
   const [array, setArray] = useState([]);
-  const [cargando, setCargando] = useState(true)
+  const [cargando, setCargando] = useState(true);
+
+  const arreglo = ["perro", "asd", "xcv"];
 
   //UseEfect
   useEffect(() => {
@@ -30,40 +32,49 @@ export const Home = () => {
 
   const app = initializeApp(firebaseConfig);
 
+  //Objeto
+  let dato = {
+    apellido: String,
+    ciudad: String,
+    nombre: String,
+  };
+
   //Obtener datos
   const fetchFirebase = () => {
     const db = getDatabase();
     const reference = ref(db, "datos/");
     onValue(reference, async (snapshot) => {
-      const data = await snapshot.val();
+      const data = [];
+
+      snapshot.forEach((dato) => {
+        const valor = dato.val();
+        //console.log(valor)
+        data.push(valor);
+      });
       setArray(await data);
-      setCargando(false)
+      setCargando(false);
     });
-    //console.log(array);
   };
 
   //Listar datos
   const DesplegarDatos = () => {
-    
-    //-------------------------------------------------------------------------- ARREGLAR ARRAY ---------------------------------------------------------------------
-    if(cargando){
-      
-      return <h2>Cargando</h2>
-    } else{
-      console.log(cargando)
-      console.log(array)
-      return array.map((dato,i) => {
-        <DespliegueDatos key={i} item={dato} />;
-      });
+    //-------------------------------------------------------------------------- ARREGLAR DESPLIEGUE ---------------------------------------------------------------------
+    if (cargando) {
+      return <h2>Cargando</h2>;
+    } else {
+      console.log(cargando);
+      console.log(array);
+      return array.map((dato,i) => (
+        <DespliegueDatos key={i} item={dato} />
+      ));
     }
   };
-  
-  return(
-  <div>
-    Home
-    
-    
-      {DesplegarDatos()}
-    
-  </div>)
+
+  return (
+    <div>
+      Home
+      <div class='container'> <div class="list-group">{DesplegarDatos()}</div></div>
+      
+    </div>
+  );
 };
