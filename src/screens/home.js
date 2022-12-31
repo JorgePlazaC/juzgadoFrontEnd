@@ -2,12 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, push, ref, set } from "firebase/database";
+import { Table, Button } from "react-bootstrap";
 
 import { DespliegueDatos } from "../components/DespliegueDatos";
 
 export const Home = () => {
   const [array, setArray] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [paginaActual, setPaginaActual] = useState(1);
 
   const arreglo = ["perro", "asd", "xcv"];
 
@@ -64,17 +66,27 @@ export const Home = () => {
     } else {
       console.log(cargando);
       console.log(array);
-      return array.map((dato,i) => (
-        <DespliegueDatos key={i} item={dato} />
-      ));
+      return (
+        <Table className="container shadow-lg" striped>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Telefono</th>
+              <th>Observaciones</th>
+            </tr>
+          </thead>
+          {array.map((dato, i) => <DespliegueDatos key={i} item={dato} />)}
+        </Table>
+      )
     }
   };
 
   return (
-    <div className="mt-3">
-      Home
-      <div class='container'> <div class="list-group">{DesplegarDatos()}</div></div>
-      
+    <div className="mt-3 ">
+      <div class="container">
+        {DesplegarDatos()}
+      </div>
     </div>
   );
 };

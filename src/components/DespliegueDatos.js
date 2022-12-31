@@ -3,8 +3,13 @@ import React from "react";
 export const DespliegueDatos = (item) => {
   console.log(item.item);
   return (
-    <button type="button" class="list-group-item list-group-item-action">
-      {item.item.nombre}
-    </button>
+    <tbody>
+      <tr>
+        <td>{item.item.nombre}</td>
+        <td>{item.item.correo}</td>
+        <td>{item.item.telefono}</td>
+        <td>{item.item.observaciones}</td>
+      </tr>
+    </tbody>
   );
 };
