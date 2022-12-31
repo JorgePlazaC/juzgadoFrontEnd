@@ -6,8 +6,9 @@ import { getDatabase, onValue, push, ref, set } from "firebase/database";
 export const IngresoDato = () => {
   const [array, setArray] = useState([]);
   const [nombre, setNombre] = useState("");
-  const [ciudad, setCiudad] = useState("");
-  const [apellido, setApellido] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [observaciones, setObservaciones] = useState("");
 
   //Firebase
   const firebaseConfig = {
@@ -23,8 +24,6 @@ export const IngresoDato = () => {
 
   const app = initializeApp(firebaseConfig);
 
-  
-
   //Actualizar tiempo
   const IngresarDato = () => {
     const db = getDatabase();
@@ -32,18 +31,19 @@ export const IngresoDato = () => {
 
     let dato = {
       nombre: nombre,
-      apellido: apellido,
-      ciudad: ciudad,
+      correo:correo,
+      telefono: telefono,
+      observaciones: observaciones,
       key: "",
     };
 
     const response = push(reference, dato);
-    
-    dato.key = response.key
-    reference = ref(db, "datos/"+dato.key);
-    set(reference,dato)
-    
-    console.log("ID obtenida: "+response.key)
+
+    dato.key = response.key;
+    reference = ref(db, "datos/" + dato.key);
+    set(reference, dato);
+
+    console.log("ID obtenida: " + response.key);
   };
 
   const editarNombre = (event) => {
@@ -51,14 +51,19 @@ export const IngresoDato = () => {
     console.log(nombre);
   };
 
-  const editarApellido = (event) => {
-    setApellido(event.target.value);
-    console.log(apellido);
+  const editarCorreo = (event) => {
+    setCorreo(event.target.value);
+    console.log(correo);
   };
 
-  const editarCiudad = (event) => {
-    setCiudad(event.target.value);
-    console.log(ciudad);
+  const editarTelefono = (event) => {
+    setTelefono(event.target.value);
+    console.log(observaciones);
+  };
+
+  const editarObservaciones = (event) => {
+    setObservaciones(event.target.value);
+    console.log(telefono);
   };
   return (
     <div className="container">
@@ -74,7 +79,23 @@ export const IngresoDato = () => {
               required
             />
             <label for="validationCustom01" class="form-label">
-              First name
+              Nombre
+            </label>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-outline">
+            <input
+              type="text"
+              class="form-control"
+              id="validationCustom01"
+              value={correo}
+              onChange={editarCorreo}
+              required
+            />
+            <label for="validationCustom01" class="form-label">
+              Correo
             </label>
             <div class="valid-feedback">Looks good!</div>
           </div>
@@ -85,28 +106,28 @@ export const IngresoDato = () => {
               type="text"
               class="form-control"
               id="validationCustom02"
-              value={apellido}
-              onChange={editarApellido}
+              value={telefono}
+              onChange={editarTelefono}
               required
             />
             <label for="validationCustom02" class="form-label">
-              Last name
+              Telefono
             </label>
             <div class="valid-feedback">Looks good!</div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-outline">
-            <input
-              type="text"
+            <textarea
               class="form-control"
-              id="validationCustom03"
-              value={ciudad}
-              onChange={editarCiudad}
+              value={observaciones}
+              onChange={editarObservaciones}
+              rows={5}
               required
-            />
+            >
+            </textarea>
             <label for="validationCustom03" class="form-label">
-              City
+              Observaciones
             </label>
             <div class="invalid-feedback">Please provide a valid city.</div>
           </div>

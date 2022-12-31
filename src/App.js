@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import { IngresoDato } from "./screens/IngresoDato";
 import { Home } from "./screens/Home";
+import { Test } from "./screens/Test";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/ingreso" element={<IngresoDato />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </Router>
     </div>
