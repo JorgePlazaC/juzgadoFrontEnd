@@ -63,20 +63,12 @@ export const Home = () => {
 
   //Siguiente página
   const SiguientePagina = () => {
-
-    setPaginaActual(2)
-    console.log(paginaActual);
-    /*
-    if (paginaActual == 1) {
-      setPaginaActual(2);
-    } else {
+    
       let suma = paginaActual + 1;
       //console.log(suma)
       setPaginaActual(suma);
       console.log(suma);
-    }
-
-    */
+    
     
   };
 
