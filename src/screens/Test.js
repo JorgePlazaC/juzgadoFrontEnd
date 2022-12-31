@@ -30,6 +30,12 @@ export const Test = () => {
           <td colSpan={2}>Larry the Bird</td>
           <td>@twitter</td>
         </tr>
+        <tr>
+          <td>4</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
       </tbody>
     </Table>
   );

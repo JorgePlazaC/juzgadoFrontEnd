@@ -71,7 +71,7 @@ export const Home = () => {
   };
 
   return (
-    <div>
+    <div className="mt-3">
       Home
       <div class='container'> <div class="list-group">{DesplegarDatos()}</div></div>
       

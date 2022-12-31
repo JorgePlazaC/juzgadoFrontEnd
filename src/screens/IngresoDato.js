@@ -66,8 +66,9 @@ export const IngresoDato = () => {
     console.log(telefono);
   };
   return (
-    <div className="container">
-      <form class="row g-3 needs-validation">
+    <div className="container mt-3">
+      <h2>Ingreso de datos</h2>
+      <form class="row g-3 mt-2 needs-validation">
         <div class="col-md-4">
           <div class="form-outline">
             <input
@@ -116,7 +117,7 @@ export const IngresoDato = () => {
             <div class="valid-feedback">Looks good!</div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div  className="mx-auto">
           <div class="form-outline">
             <textarea
               class="form-control"
