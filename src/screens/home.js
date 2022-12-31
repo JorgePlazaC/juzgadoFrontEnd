@@ -48,7 +48,7 @@ export const Home = () => {
     onValue(reference, async (snapshot) => {
       const data = [];
 
-      snapshot.forEach((dato) => {
+      await snapshot.forEach((dato) => {
         const valor = dato.val();
         //console.log(valor)
         data.push(valor);
@@ -58,35 +58,49 @@ export const Home = () => {
     });
   };
 
+  //Siguiente página
+  const SiguientePagina = () => {
+    let suma = paginaActual;
+    suma++
+    //console.log(suma)
+    setPaginaActual(suma);
+    console.log(paginaActual)
+  };
+
   //Listar datos
   const DesplegarDatos = () => {
     //-------------------------------------------------------------------------- ARREGLAR DESPLIEGUE ---------------------------------------------------------------------
     if (cargando) {
       return <h2>Cargando</h2>;
     } else {
-      console.log(cargando);
-      console.log(array);
+      //console.log(cargando);
+      //console.log(array);
       return (
-        <Table className="container shadow-lg" striped>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Telefono</th>
-              <th>Observaciones</th>
-            </tr>
-          </thead>
-          {array.map((dato, i) => <DespliegueDatos key={i} item={dato} />)}
-        </Table>
-      )
+        <div>
+          <Table className="container shadow-lg" striped>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Observaciones</th>
+              </tr>
+            </thead>
+            <DespliegueDatos
+              item={dato}
+              array={array}
+              paginaAct={paginaActual}
+            />
+          </Table>
+          <Button onClick={SiguientePagina}>Siguiente</Button>
+        </div>
+      );
     }
   };
 
   return (
     <div className="mt-3 ">
-      <div class="container">
-        {DesplegarDatos()}
-      </div>
+      <div class="container">{DesplegarDatos()}</div>
     </div>
   );
 };

@@ -9,17 +9,20 @@ import NavBar from "./components/NavBar";
 import { IngresoDato } from "./screens/IngresoDato";
 import { Home } from "./screens/Home";
 import { Test } from "./screens/Test";
+import { JuzgadoProvider } from "./components/JuzgadoContext";
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <JuzgadoProvider>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/ingreso" element={<IngresoDato />} />
           <Route path="/test" element={<Test />} />
         </Routes>
+        </JuzgadoProvider>
       </Router>
     </div>
   );
