@@ -1,20 +1,24 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
+//Propio del proyecto
+import JuzgadoContext from "./JuzgadoContext";
 
 export const DespliegueDatos = (item) => {
 
-  const [paginaActual, setPaginaActual] = useState(item.paginaAct);
   const [arrayPaginacion, setArrayPaginacion] = useState([])
   const [paginasMax, setPaginasMax] = useState(10)
   const [nuevoArray, setNuevoArray] = useState(item.array)
   const [cargando,setCargando] = useState(true)
 
+  //UseContext
+  const { paginaActual, setPaginaActual } = useContext(JuzgadoContext)
 
   useEffect(() => {
     return () => {
       Paginacion()
     };
-  }, [])
+  }, [paginaActual])
 
   //Paginación
   const Paginacion = () =>{

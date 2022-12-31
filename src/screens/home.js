@@ -1,21 +1,24 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, push, ref, set } from "firebase/database";
 import { Table, Button } from "react-bootstrap";
 
+//Propio del proyecto
+import JuzgadoContext from "../components/JuzgadoContext";
 import { DespliegueDatos } from "../components/DespliegueDatos";
 
 export const Home = () => {
   const [array, setArray] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [paginaActual, setPaginaActual] = useState(1);
 
-  const arreglo = ["perro", "asd", "xcv"];
+  //UseContext
+  const { paginaActual, setPaginaActual } = useContext(JuzgadoContext);
 
   //UseEfect
   useEffect(() => {
     (async () => {
+      setPaginaActual(1)
       fetchFirebase();
     })();
   }, []);
@@ -60,11 +63,21 @@ export const Home = () => {
 
   //Siguiente página
   const SiguientePagina = () => {
-    let suma = paginaActual;
-    suma++
-    //console.log(suma)
-    setPaginaActual(suma);
-    console.log(paginaActual)
+
+    setPaginaActual(2)
+    console.log(paginaActual);
+    /*
+    if (paginaActual == 1) {
+      setPaginaActual(2);
+    } else {
+      let suma = paginaActual + 1;
+      //console.log(suma)
+      setPaginaActual(suma);
+      console.log(suma);
+    }
+
+    */
+    
   };
 
   //Listar datos
