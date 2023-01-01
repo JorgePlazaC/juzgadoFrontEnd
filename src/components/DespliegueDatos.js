@@ -11,27 +11,54 @@ export const DespliegueDatos = (item) => {
   const [cargando, setCargando] = useState(true);
 
   //UseContext
-  const { paginaActual, setPaginaActual } = useContext(JuzgadoContext);
+  const { paginaActual, setPaginaActual, iniciado, setIniciado } =
+    useContext(JuzgadoContext);
 
   useEffect(() => {
     return () => {
-      Paginacion();
+      //Paginacion();
     };
-  }, [paginaActual]);
+  }, []);
 
   //Paginación
+  /*
   const Paginacion = () => {
-    setCargando(true);
-    let arraySlice = []
-    arraySlice = nuevoArray
-    arraySlice = arraySlice.slice((paginaActual-1)*10,paginasMax*paginaActual)
-    //arraySlice = arraySlice.slice(0,10)
-    setArrayPaginacion(arraySlice)
+    console.log("Paginación");
+    console.log("Página: " + paginaActual);
+    console.log(arrayPaginacion);
+    console.log("Iniciado: "+iniciado)
+    if (iniciado === true && paginaActual === 1) {
+      console.log("Entró")
+      let arraySlice = [];
+      arraySlice = nuevoArray;
+      arraySlice = arraySlice.slice(
+        (1) * 10,
+        paginasMax * 2
+      );
+      //arraySlice = arraySlice.slice(0,10)
+      setArrayPaginacion(arraySlice);
 
-    setCargando(false);
-    console.log(arraySlice)
+      setCargando(false);
+      setIniciado(true);
+      console.log(arraySlice);
+    } else {
+      let arraySlice = [];
+      arraySlice = nuevoArray;
+      arraySlice = arraySlice.slice(
+        (paginaActual - 1) * 10,
+        paginasMax * paginaActual
+      );
+      //arraySlice = arraySlice.slice(0,10)
+      setArrayPaginacion(arraySlice);
+
+      setCargando(false);
+      setIniciado(true);
+      console.log(arraySlice);
+    }
   };
+  */
   //Despliegue
+  /*
   const Despliegue = () => {
     if (!cargando) {
       return arrayPaginacion.map((dato, i) => (
@@ -46,6 +73,14 @@ export const DespliegueDatos = (item) => {
       ));
     }
   };
+  */
 
-  return Despliegue();
+  return <tbody>
+  <tr>
+    <td>{item.item.nombre}</td>
+    <td>{item.item.correo}</td>
+    <td>{item.item.telefono}</td>
+    <td>{item.item.observaciones}</td>
+  </tr>
+</tbody>
 };
