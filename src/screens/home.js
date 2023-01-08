@@ -27,8 +27,6 @@ export const Home = () => {
   useEffect(() => {
     (() => {
       fetchFirebase();
-      //await Paginacion()
-      //SiguientePagina()
     })();
   }, [pagActual]);
 
@@ -124,8 +122,11 @@ export const Home = () => {
     } else {
       setAnteriorDisponible(true);
     }
-    
   };
+
+  const Busqueda = () =>{
+    
+  }
 
   /*
   //Paginación
