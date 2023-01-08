@@ -157,7 +157,7 @@ export const IngresoDato = () => {
       <Form validated={validated} onSubmit={IngresarDato}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="validationCustom01">
-            <Form.Label>First name</Form.Label>
+            <Form.Label>Nombre</Form.Label>
             <Form.Control
               required
               type="text"
@@ -177,7 +177,7 @@ export const IngresoDato = () => {
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom03">
-            <Form.Label>Correo</Form.Label>
+            <Form.Label>Telefono</Form.Label>
             <Form.Control
               required
               type="text"

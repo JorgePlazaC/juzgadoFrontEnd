@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, push, ref, set } from "firebase/database";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Modal} from "react-bootstrap";
 
 //Propio del proyecto
 import JuzgadoContext from "../components/JuzgadoContext";
@@ -10,12 +10,16 @@ import { DespliegueDatos } from "../components/DespliegueDatos";
 
 export const Home = () => {
   const [array, setArray] = useState([]);
+  const [arrayTodo, setArrayTodo] = useState([])
   const [cargando, setCargando] = useState(true);
   const [paginasMax, setPaginasMax] = useState(10);
   const [pagActual, setPagActual] = useState(1);
   const [arrayPaginacion, setArrayPaginacion] = useState([]);
   const [siguienteDisponible, setSiguienteDisponible] = useState(true);
   const [anteriorDisponible, setAnteriorDisponible] = useState(false);
+  const [inputBuscar, setInputBuscar] = useState();
+  const [modal, setModal] = useState(false);
+  const [observacion,setObservacion] = useState()
 
   let arraySeleccion = [];
 
@@ -58,6 +62,9 @@ export const Home = () => {
     onValue(reference, (snapshot) => {
       const data = [];
       let cont = 0;
+      if(arraySeleccion.length >= 1){
+        arraySeleccion=[]
+      }
       snapshot.forEach((dato) => {
         arraySeleccion.push(dato.val())
         if (
@@ -71,7 +78,8 @@ export const Home = () => {
         //console.log(cont)
         cont++;
       });
-      
+      console.log(arraySeleccion)
+      setArrayTodo(arraySeleccion)
       setArray(data);
       //Paginacion()
       setCargando(false);
@@ -124,8 +132,18 @@ export const Home = () => {
     }
   };
 
-  const Busqueda = () =>{
-    
+  const Busqueda = (event) =>{
+    let arrayBusqueda = []
+    //console.log(arrayTodo)
+    arrayTodo.forEach((dato,i) =>{
+      if(dato.nombre === inputBuscar){
+        arrayBusqueda.push(dato)
+      }
+    })
+    setArray(arrayBusqueda)
+    console.log(array)
+    //setPagActual(1)
+    event.preventDefault()
   }
 
   /*
@@ -182,7 +200,10 @@ export const Home = () => {
               <td>{dato.nombre}</td>
               <td>{dato.correo}</td>
               <td>{dato.telefono}</td>
-              <td>{dato.observaciones}</td>
+              <td><Button variant="primary" onClick={() =>{handleShow()
+              setObservacion(dato.observaciones)}}>
+        Abrir
+      </Button></td>
             </tr>
           </tbody>
         ))}
@@ -207,6 +228,7 @@ export const Home = () => {
       )}
     </div>
   );
+
 
   /*
   const SeleccionArray = () => {
@@ -241,9 +263,45 @@ export const Home = () => {
   };
   */
 
+  const editarInputBusqueda = (event) => {
+    setInputBuscar(event.target.value);
+    console.log(inputBuscar);
+  };
+
+  const handleClose = () => setModal(false);
+  const handleShow = (observacion) => {
+    console.log(observacion)
+    setObservacion(observacion)
+    setModal(true)
+  };
+
   return (
-    <div className="mt-3 ">
+    <div className="mt-3 container">
+      <form class="form-inline my-2 my-lg-0" onSubmit={Busqueda}>
+            <input
+              class="form-control mr-sm-2"
+              type="text"
+              aria-label="Search"
+              required
+              value={inputBuscar}
+              onChange={editarInputBusqueda}
+            />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+              Buscar
+            </button>
+          </form>
       <div class="container">{DesplegarDatos()}</div>
+      <Modal show={modal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Observaciones:</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{observacion}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
