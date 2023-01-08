@@ -25,12 +25,12 @@ export const Home = () => {
 
   //UseEfect
   useEffect(() => {
-    (async () => {
-      await fetchFirebase();
+    (() => {
+      fetchFirebase();
       //await Paginacion()
       //SiguientePagina()
     })();
-  }, []);
+  }, [pagActual]);
 
   //Firebase
   const firebaseConfig = {
@@ -57,56 +57,85 @@ export const Home = () => {
   const fetchFirebase = () => {
     const db = getDatabase();
     const reference = ref(db, "datos/");
-    onValue(reference, async (snapshot) => {
+    onValue(reference, (snapshot) => {
       const data = [];
+      let cont = 0;
+      snapshot.forEach((dato) => {
+        arraySeleccion.push(dato.val())
+        if (
+          (pagActual - 1) * paginasMax <= cont &&
+          pagActual * paginasMax > cont
+        ) {
+          const valor = dato.val();
 
-      await snapshot.forEach((dato) => {
-        const valor = dato.val();
-        //console.log(valor)
-        data.push(valor);
+          data.push(valor);
+        }
+        //console.log(cont)
+        cont++;
       });
-      await setArray(await data);
+      
+      setArray(data);
       //Paginacion()
-
-      //Paginacion
-      let arraySlice = [];
-      arraySlice = data;
-      arraySlice = arraySlice.slice(
-        (pagActual - 1) * 10,
-        paginasMax * pagActual
-      );
-      //arraySlice = arraySlice.slice(0,10)
-      arraySeleccion = arraySlice;
-      console.log("Array seleccion 2");
-      console.log(arraySeleccion);
       setCargando(false);
     });
   };
 
   //Anterior página
-  const AnteriorPagina = async () => {
+  const AnteriorPagina = () => {
     let suma = pagActual - 1;
-    console.log(suma);
-    await setPagActual(suma);
-    Paginacion();
     //console.log(suma);
+    setPagActual(suma);
+    fetchFirebase();
+    
+    //Paginacion();
+    //console.log(suma);
+    if (arraySeleccion.length < 9) {
+      setSiguienteDisponible(false);
+    } else {
+      setSiguienteDisponible(true);
+    }
+    if (suma === 1) {
+      setAnteriorDisponible(false);
+    } else {
+      setAnteriorDisponible(true);
+    }
+    
   };
 
   //Siguiente página
-  const SiguientePagina = async () => {
+  const SiguientePagina = () => {
     let suma = pagActual + 1;
-    console.log(suma);
-    await setPagActual(suma);
-    Paginacion();
     //console.log(suma);
+    setPagActual(suma);
+    fetchFirebase();
+    //Paginacion();
+    //console.log(suma);
+    let totalPaginas = arraySeleccion.length/10
+    console.log("Suma: "+suma)
+    console.log("El total de paginas es: "+totalPaginas)
+    
+    if (suma > totalPaginas) {
+      setSiguienteDisponible(false);
+    } else {
+      setSiguienteDisponible(true);
+    }
+    if (suma === 1) {
+      setAnteriorDisponible(false);
+    } else {
+      setAnteriorDisponible(true);
+    }
+    
   };
 
+  /*
   //Paginación
   const Paginacion = () => {
     console.log("Paginación");
     console.log("Página: " + pagActual);
     //console.log(arrayPaginacion);
-    console.log("Iniciado: " + iniciado);
+    //console.log("Iniciado: " + iniciado);
+    console.log("Array normal");
+    console.log(array)
 
     if (array.length === 0) {
       console.log("Array vacío");
@@ -116,9 +145,10 @@ export const Home = () => {
     arraySlice = array;
     arraySlice = arraySlice.slice((pagActual - 1) * 10, paginasMax * pagActual);
     //arraySlice = arraySlice.slice(0,10)
-    setArrayPaginacion(arraySlice);
     arraySeleccion = arraySlice;
-    if (arraySeleccion.length < 9) {
+    setArrayPaginacion(arraySlice);
+    
+    if (arrayPaginacion.length < 9) {
       setSiguienteDisponible(false);
     } else {
       setSiguienteDisponible(true);
@@ -131,51 +161,53 @@ export const Home = () => {
 
     console.log(arraySlice);
   };
+  */
 
   //Listar datos
-  const DesplegarDatos = () => {
-    //-------------------------------------------------------------------------- ARREGLAR DESPLIEGUE ---------------------------------------------------------------------
-    if (cargando) {
-      return <h2>Cargando</h2>;
-    } else {
-      //console.log(cargando);
-      //console.log(array);
-      return (
-        <div>
-          <Table className="container shadow-lg" striped>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Observaciones</th>
-              </tr>
-            </thead>
-            {SeleccionArray()}
-          </Table>
-          {anteriorDisponible ? (
-            <Button onClick={AnteriorPagina} disabled={false}>
-              Atras
-            </Button>
-          ) : (
-            <Button onClick={AnteriorPagina} disabled={true}>
-              Anterior
-            </Button>
-          )}
-          {siguienteDisponible ? (
-            <Button onClick={SiguientePagina} disabled={false}>
-              Siguiente
-            </Button>
-          ) : (
-            <Button onClick={SiguientePagina} disabled={true}>
-              Siguiente
-            </Button>
-          )}
-        </div>
-      );
-    }
-  };
+  const DesplegarDatos = () => (
+    <div>
+      <Table className="container shadow-lg" striped>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        {array.map((dato, i) => (
+          <tbody>
+            <tr>
+              <td>{dato.nombre}</td>
+              <td>{dato.correo}</td>
+              <td>{dato.telefono}</td>
+              <td>{dato.observaciones}</td>
+            </tr>
+          </tbody>
+        ))}
+      </Table>
+      {anteriorDisponible ? (
+        <Button onClick={AnteriorPagina} disabled={false}>
+          Anterior
+        </Button>
+      ) : (
+        <Button onClick={AnteriorPagina} disabled={true}>
+          Anterior
+        </Button>
+      )}
+      {siguienteDisponible ? (
+        <Button onClick={SiguientePagina} disabled={false}>
+          Siguiente
+        </Button>
+      ) : (
+        <Button onClick={SiguientePagina} disabled={true}>
+          Siguiente
+        </Button>
+      )}
+    </div>
+  );
 
+  /*
   const SeleccionArray = () => {
     if (arrayPaginacion.length === 0) {
       console.log("Array seleccion:");
@@ -206,6 +238,7 @@ export const Home = () => {
       ));
     }
   };
+  */
 
   return (
     <div className="mt-3 ">
