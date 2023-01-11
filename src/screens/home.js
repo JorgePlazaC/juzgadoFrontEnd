@@ -31,8 +31,8 @@ export const Home = () => {
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [observacion, setObservacion] = useState();
-  const [datoCopia, setDatoCopia] = useState("");
+  const [observacion, setObservacion] = useState("");
+  const [key, setKey] = useState("");
 
   let arraySeleccion = [];
 
@@ -70,7 +70,8 @@ export const Home = () => {
 
   //Obtener datos
   const fetchFirebase = () => {
-    const db = getDatabase();
+    try {
+      const db = getDatabase();
     const reference = ref(db, "datos/");
     onValue(reference, (snapshot) => {
       const data = [];
@@ -97,6 +98,9 @@ export const Home = () => {
       //Paginacion()
       setCargando(false);
     });
+    } catch (error) {
+      alert(error)
+    }
   };
 
   //Anterior página
@@ -132,7 +136,7 @@ export const Home = () => {
     console.log("Suma: " + suma);
     console.log("El total de paginas es: " + totalPaginas);
 
-    if (suma > totalPaginas) {
+    if (suma >= totalPaginas) {
       setSiguienteDisponible(false);
     } else {
       setSiguienteDisponible(true);
@@ -159,7 +163,8 @@ export const Home = () => {
   };
 
   const BorrarDato = (dato) => {
-    const db = getDatabase();
+    try {
+      const db = getDatabase();
     let reference = ref(db, "datos/");
     console.log("Borrar");
     reference = ref(db, "datos/" + dato.key);
@@ -172,6 +177,33 @@ export const Home = () => {
       return
     }
     alert("Eliminación cancelada")
+    } catch (error) {
+      alert(error)
+    }
+  };
+
+  const ModificarDato = (event) => {
+    try {
+      const db = getDatabase();
+    let reference = ref(db, "datos/");
+
+    let dato = {
+      nombre: nombre,
+      correo: correo,
+      telefono: telefono,
+      observaciones: observacion,
+      key: key,
+    };
+
+    reference = ref(db, "datos/" + dato.key);
+    set(reference, dato);
+
+    alert("Modificación exitosa")
+    setModalEdicion(false)
+    event.preventDefault()
+    } catch (error) {
+      alert(error)
+    }
   };
 
   /*
@@ -249,6 +281,7 @@ export const Home = () => {
                     setCorreo(dato.correo)
                     setTelefono(dato.telefono)
                     setObservacion(dato.observaciones)
+                    setKey(dato.key)
                     console.log(dato.observaciones)
                   }}
                 >
@@ -388,7 +421,7 @@ export const Home = () => {
           <Modal.Title>Edición de datos:</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={ModificarDato}>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label>Nombre</Form.Label>
