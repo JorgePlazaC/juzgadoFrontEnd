@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, HashRouter } from "react-router-dom";
 
 //Propio del proyecto
 import NavBar from "./components/NavBar";

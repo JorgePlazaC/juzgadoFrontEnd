@@ -9,8 +9,15 @@ import {
   set,
   remove,
 } from "firebase/database";
-import { Table, Button, Modal, Col, Form, InputGroup, Row } from "react-bootstrap";
-
+import {
+  Table,
+  Button,
+  Modal,
+  Col,
+  Form,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
 
 //Propio del proyecto
 import JuzgadoContext from "../components/JuzgadoContext";
@@ -72,34 +79,34 @@ export const Home = () => {
   const fetchFirebase = () => {
     try {
       const db = getDatabase();
-    const reference = ref(db, "datos/");
-    onValue(reference, (snapshot) => {
-      const data = [];
-      let cont = 0;
-      if (arraySeleccion.length >= 1) {
-        arraySeleccion = [];
-      }
-      snapshot.forEach((dato) => {
-        arraySeleccion.push(dato.val());
-        if (
-          (pagActual - 1) * paginasMax <= cont &&
-          pagActual * paginasMax > cont
-        ) {
-          const valor = dato.val();
-
-          data.push(valor);
+      const reference = ref(db, "datos/");
+      onValue(reference, (snapshot) => {
+        const data = [];
+        let cont = 0;
+        if (arraySeleccion.length >= 1) {
+          arraySeleccion = [];
         }
-        //console.log(cont)
-        cont++;
+        snapshot.forEach((dato) => {
+          arraySeleccion.push(dato.val());
+          if (
+            (pagActual - 1) * paginasMax <= cont &&
+            pagActual * paginasMax > cont
+          ) {
+            const valor = dato.val();
+
+            data.push(valor);
+          }
+          //console.log(cont)
+          cont++;
+        });
+        console.log(arraySeleccion);
+        setArrayTodo(arraySeleccion);
+        setArray(data);
+        //Paginacion()
+        setCargando(false);
       });
-      console.log(arraySeleccion);
-      setArrayTodo(arraySeleccion);
-      setArray(data);
-      //Paginacion()
-      setCargando(false);
-    });
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   };
 
@@ -165,44 +172,44 @@ export const Home = () => {
   const BorrarDato = (dato) => {
     try {
       const db = getDatabase();
-    let reference = ref(db, "datos/");
-    console.log("Borrar");
-    reference = ref(db, "datos/" + dato.key);
-    if(window.confirm("Estás seguro que deseas eliminar "+dato.nombre)){
-      remove(reference, dato)
-      .then(alert("Eliminación exitosa de: " + dato.nombre))
-      .catch((error) => {
-        alert(error);
-      });
-      return
-    }
-    alert("Eliminación cancelada")
+      let reference = ref(db, "datos/");
+      console.log("Borrar");
+      reference = ref(db, "datos/" + dato.key);
+      if (window.confirm("Estás seguro que deseas eliminar " + dato.nombre)) {
+        remove(reference, dato)
+          .then(alert("Eliminación exitosa de: " + dato.nombre))
+          .catch((error) => {
+            alert(error);
+          });
+        return;
+      }
+      alert("Eliminación cancelada");
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   };
 
   const ModificarDato = (event) => {
     try {
       const db = getDatabase();
-    let reference = ref(db, "datos/");
+      let reference = ref(db, "datos/");
 
-    let dato = {
-      nombre: nombre,
-      correo: correo,
-      telefono: telefono,
-      observaciones: observacion,
-      key: key,
-    };
+      let dato = {
+        nombre: nombre,
+        correo: correo,
+        telefono: telefono,
+        observaciones: observacion,
+        key: key,
+      };
 
-    reference = ref(db, "datos/" + dato.key);
-    set(reference, dato);
+      reference = ref(db, "datos/" + dato.key);
+      set(reference, dato);
 
-    alert("Modificación exitosa")
-    setModalEdicion(false)
-    event.preventDefault()
+      alert("Modificación exitosa");
+      setModalEdicion(false);
+      event.preventDefault();
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   };
 
@@ -278,11 +285,11 @@ export const Home = () => {
                   onClick={() => {
                     handleShowEdicion();
                     setNombre(dato.nombre);
-                    setCorreo(dato.correo)
-                    setTelefono(dato.telefono)
-                    setObservacion(dato.observaciones)
-                    setKey(dato.key)
-                    console.log(dato.observaciones)
+                    setCorreo(dato.correo);
+                    setTelefono(dato.telefono);
+                    setObservacion(dato.observaciones);
+                    setKey(dato.key);
+                    console.log(dato.observaciones);
                   }}
                 >
                   Editar
@@ -420,22 +427,37 @@ export const Home = () => {
         <Modal.Header closeButton>
           <Modal.Title>Edición de datos:</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={ModificarDato}>
+        <Form onSubmit={ModificarDato}>
+          <Modal.Body>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label>Nombre</Form.Label>
-                <Form.Control required type="text" value={nombre} onChange={editarNombre} />
+                <Form.Control
+                  required
+                  type="text"
+                  value={nombre}
+                  onChange={editarNombre}
+                />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="validationCustom02">
                 <Form.Label>Correo</Form.Label>
-                <Form.Control required type="text" value={correo} onChange={editarCorreo} />
+                <Form.Control
+                  required
+                  type="text"
+                  value={correo}
+                  onChange={editarCorreo}
+                />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="validationCustom03">
                 <Form.Label>Telefono</Form.Label>
-                <Form.Control required type="text" value={telefono} onChange={editarTelefono} />
+                <Form.Control
+                  required
+                  type="text"
+                  value={telefono}
+                  onChange={editarTelefono}
+                />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -460,14 +482,14 @@ export const Home = () => {
                 </Form.Group>
               </Row>
             </div>
+          </Modal.Body>
+          <Modal.Footer>
             <Button type="submit">Ingresar</Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseEdicion}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEdicion}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </div>
   );

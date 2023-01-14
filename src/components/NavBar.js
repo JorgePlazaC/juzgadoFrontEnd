@@ -1,9 +1,19 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const NavBar = () => {
+  const [barraLateral, setBarraLateral] = useState(false);
 
+  const abrirBarraLateral = () => {
+    setBarraLateral(true);
+  };
+
+  const cerrarBarraLateral = () => {
+    setBarraLateral(false);
+  };
   /*
   <div>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -95,6 +105,7 @@ const NavBar = () => {
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          onClick={abrirBarraLateral}
         >
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -109,6 +120,19 @@ const NavBar = () => {
           </ul>
         </div>
       </nav>
+      <Offcanvas show={barraLateral} onHide={cerrarBarraLateral}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Menú</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <a class="navbar-brand" href="/">
+            Inicio
+          </a>
+          <a class="nav-link" href="/ingreso">
+            Ingreso
+          </a>
+        </Offcanvas.Body>
+      </Offcanvas>
     </div>
   );
 };
