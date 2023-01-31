@@ -45,8 +45,7 @@ export const Home = () => {
   let arraySeleccion = [];
 
   //UseContext
-  const { paginaActual, setPaginaActual, iniciado, setIniciado } =
-    useContext(JuzgadoContext);
+  const { usuario, setUsuario } = useContext(JuzgadoContext);
 
   //UseEfect
   useEffect(() => {
@@ -56,7 +55,7 @@ export const Home = () => {
   }, [pagActual]);
 
   //Firebase
-  const app = firebase
+  const app = firebase;
 
   //Objeto
   let dato = {

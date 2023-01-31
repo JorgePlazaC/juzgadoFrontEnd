@@ -3,9 +3,40 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useContext, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import JuzgadoContext from "./JuzgadoContext";
 
 const NavBar = () => {
+  //UseContext
+  const { usuario, setUsuario } = useContext(JuzgadoContext);
+
+  //UseEffect
+  useEffect(() => {
+    return () => {
+      VerificarSesion()
+    };
+  }, [])
+
   const [barraLateral, setBarraLateral] = useState(false);
+
+  const VerificarSesion = () =>{
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log(user)
+        setUsuario(user)
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  }
 
   const abrirBarraLateral = () => {
     setBarraLateral(true);
@@ -127,6 +158,12 @@ const NavBar = () => {
                 Registrar
               </a>
             </li>
+            {usuario ? (<div><li class="nav-item">
+              <a class="nav-link" href="/registrar">
+                {usuario.email}
+              </a>
+            </li></div>):(<div></div>)}
+            
           </ul>
         </div>
       </nav>

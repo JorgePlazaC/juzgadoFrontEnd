@@ -3,13 +3,12 @@ import { createContext, useState, useEffect } from "react";
 const JuzgadoContext = createContext();
 
 export function JuzgadoProvider({ children }) {
-  const [paginaActual, setPaginaActual] = useState(1);
-  const [iniciado, setIniciado] = useState();
+  const [usuario, setUsuario] = useState();
 
   return (
     <JuzgadoContext.Provider
       value={{
-        paginaActual, setPaginaActual, iniciado, setIniciado
+        usuario, setUsuario
       }}
     >
       {children}
