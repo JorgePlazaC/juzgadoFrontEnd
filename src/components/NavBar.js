@@ -117,6 +117,16 @@ const NavBar = () => {
                 Ingreso
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/inicioSesion">
+                Iniciar sesión
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/registrar">
+                Registrar
+              </a>
+            </li>
           </ul>
         </div>
       </nav>

@@ -10,6 +10,8 @@ import { IngresoDato } from "./screens/IngresoDato";
 import { Home } from "./screens/Home";
 import { Test } from "./screens/Test";
 import { JuzgadoProvider } from "./components/JuzgadoContext";
+import { InicioSesion } from "./screens/InicioSesion";
+import { Registrar } from "./screens/Registrar";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/ingreso" element={<IngresoDato />} />
+          <Route path="/inicioSesion" element={<InicioSesion />} />
+          <Route path="/registrar" element={<Registrar />} />
           <Route path="/test" element={<Test />} />
         </Routes>
         </JuzgadoProvider>
