@@ -213,42 +213,6 @@ export const Home = () => {
     }
   };
 
-  /*
-  //Paginación
-  const Paginacion = () => {
-    console.log("Paginación");
-    console.log("Página: " + pagActual);
-    //console.log(arrayPaginacion);
-    //console.log("Iniciado: " + iniciado);
-    console.log("Array normal");
-    console.log(array)
-
-    if (array.length === 0) {
-      console.log("Array vacío");
-    }
-
-    let arraySlice = [];
-    arraySlice = array;
-    arraySlice = arraySlice.slice((pagActual - 1) * 10, paginasMax * pagActual);
-    //arraySlice = arraySlice.slice(0,10)
-    arraySeleccion = arraySlice;
-    setArrayPaginacion(arraySlice);
-    
-    if (arrayPaginacion.length < 9) {
-      setSiguienteDisponible(false);
-    } else {
-      setSiguienteDisponible(true);
-    }
-    if (pagActual === 1) {
-      setAnteriorDisponible(false);
-    } else {
-      setAnteriorDisponible(true);
-    }
-
-    console.log(arraySlice);
-  };
-  */
-
   //Listar datos
   const DesplegarDatos = () => (
     <div>
@@ -327,39 +291,6 @@ export const Home = () => {
       )}
     </div>
   );
-
-  /*
-  const SeleccionArray = () => {
-    if (arrayPaginacion.length === 0) {
-      console.log("Array seleccion:");
-      console.log(arraySeleccion);
-      console.log("Array normal:");
-      console.log(array);
-      Paginacion();
-      return arraySeleccion.map((dato, i) => (
-        <tbody>
-          <tr>
-            <td>{dato.nombre}</td>
-            <td>{dato.correo}</td>
-            <td>{dato.telefono}</td>
-            <td>{dato.observaciones}</td>
-          </tr>
-        </tbody>
-      ));
-    } else {
-      return arrayPaginacion.map((dato, i) => (
-        <tbody>
-          <tr>
-            <td>{dato.nombre}</td>
-            <td>{dato.correo}</td>
-            <td>{dato.telefono}</td>
-            <td>{dato.observaciones}</td>
-          </tr>
-        </tbody>
-      ));
-    }
-  };
-  */
 
   const editarInputBusqueda = (event) => {
     setInputBuscar(event.target.value);
