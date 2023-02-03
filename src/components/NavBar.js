@@ -15,9 +15,14 @@ const NavBar = () => {
   //UseState
   const [cargando,setCargando] = useState(true)
 
+  //Constantes
+  const emailUsuario = localStorage.getItem('usuario')
+
   //UseEffect
   useEffect(() => {
     return () => {
+      //emailUsuario = localStorage.getItem('usuario')
+      console.log(emailUsuario)
       VerificarSesion(setUsuario);
     };
   }, []);

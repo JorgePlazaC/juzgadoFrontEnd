@@ -37,7 +37,7 @@ export const InicioSesion = () => {
         const user = userCredential.user;
         console.log("Usuario: "+ user)
         console.log(user)
-        localStorage.setItem('usuario', user.uid)
+        localStorage.setItem('usuario', user.email)
         setUsuario(user)
         console.log(localStorage.getItem('usuario'))
         navigate('/')

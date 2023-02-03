@@ -12,17 +12,17 @@ export const VerificarSesion = (setUsuario) => {
 
   //console.log(usuario)
 
-  const uID = localStorage.getItem('usuario')
+  const emailUsuario = localStorage.getItem('usuario')
 
   const auth = getAuth();
 
-  if(uID){
+  if(emailUsuario){
     onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/firebase.User
           const uid = user.uid;
-          console.log(user);
+          console.log(user.email);
           setUsuario(user);
           console.log("Sesión inciada")
           // ...
