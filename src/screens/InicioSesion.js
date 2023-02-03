@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //Del proyecto
 import JuzgadoContext from '../components/JuzgadoContext';
@@ -12,6 +13,9 @@ import JuzgadoContext from '../components/JuzgadoContext';
 export const InicioSesion = () => {
   //UseContext
   const { usuario, setUsuario } = useContext(JuzgadoContext);
+
+  //UseNavigate
+  const navigate = useNavigate()
 
 
   const IniciarSesion = async (event) => {
@@ -33,7 +37,10 @@ export const InicioSesion = () => {
         const user = userCredential.user;
         console.log("Usuario: "+ user)
         console.log(user)
+        localStorage.setItem('usuario', user.uid)
         setUsuario(user)
+        console.log(localStorage.getItem('usuario'))
+        navigate('/')
         // ...
       })
       .catch((error) => {
